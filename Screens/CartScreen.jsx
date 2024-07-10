@@ -10,7 +10,7 @@ import {
 import { MaterialIcons } from '@expo/vector-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const CartScreen = () => {
+const CartScreen = ({ navigation }) => {
   const [cartItems, setCartItems] = useState([]);
 
   useEffect(() => {
@@ -68,7 +68,15 @@ const CartScreen = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.header}>CHECKOUT</Text>
+      <View style={styles.headerContainer}>
+        <TouchableOpacity
+          style={styles.backButton}
+          onPress={() => navigation.goBack()}
+        >
+          <MaterialIcons name='arrow-back' size={24} color='black' />
+        </TouchableOpacity>
+        <Text style={styles.header}>CHECKOUT</Text>
+      </View>
       <FlatList
         data={cartItems}
         renderItem={renderItem}
@@ -92,11 +100,20 @@ const styles = StyleSheet.create({
     padding: 20,
     backgroundColor: '#fff',
   },
+  headerContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingTop: 20,
+    marginBottom: 10,
+  },
+  backButton: {
+    marginRight: 10,
+  },
   header: {
     fontSize: 30,
     fontWeight: 'bold',
     textAlign: 'center',
-    marginVertical: 10,
+    flex: 1, // Take up remaining space
   },
   item: {
     flexDirection: 'row',

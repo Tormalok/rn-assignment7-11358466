@@ -9,6 +9,7 @@ import {
 } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useNavigation } from '@react-navigation/native';
 
 const DATA = [
   {
@@ -56,6 +57,8 @@ const DATA = [
 ];
 
 const Item = ({ item }) => {
+  const navigation = useNavigation();
+
   const addItemToCart = async (item) => {
     try {
       let cartItems = await AsyncStorage.getItem('cartItems');
@@ -69,14 +72,17 @@ const Item = ({ item }) => {
   };
 
   return (
-    <View style={styles.item}>
+    <TouchableOpacity
+      style={styles.item}
+      onPress={() => navigation.navigate('ProductDetails', { item })}
+    >
       <View style={styles.imageContainer}>
         <Image source={item.image} style={styles.image} />
         <TouchableOpacity
           onPress={() => addItemToCart(item)}
           style={styles.addButton}
         >
-          <MaterialIcons name="add" size={24} color="black" />
+          <MaterialIcons name='add' size={24} color='black' />
         </TouchableOpacity>
       </View>
       <View style={styles.text}>
@@ -84,7 +90,7 @@ const Item = ({ item }) => {
         <Text style={styles.description}>{item.description}</Text>
         <Text style={styles.price}>{item.price}</Text>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 
