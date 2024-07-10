@@ -8,12 +8,12 @@ const Header = () => {
 
   return (
     <View style={styles.header}>
-      <MaterialIcons name="menu" size={30} style={styles.icon} />
+      <MaterialIcons name='menu' size={30} style={styles.icon} />
       <Text style={styles.label}>Open Fashion</Text>
       <View style={styles.rightIcons}>
-        <MaterialIcons name="search" size={30} style={styles.icon} />
+        <MaterialIcons name='search' size={30} style={styles.icon} />
         <TouchableOpacity onPress={() => navigation.navigate('Cart')}>
-          <MaterialIcons name="shopping-bag" size={30} style={styles.icon} />
+          <MaterialIcons name='shopping-bag' size={30} style={styles.icon} />
         </TouchableOpacity>
       </View>
     </View>
@@ -23,7 +23,6 @@ const Header = () => {
 const styles = StyleSheet.create({
   header: {
     padding: 15,
-    marginTop: 23,
     paddingHorizontal: 8,
     height: 60,
     width: '100%',
