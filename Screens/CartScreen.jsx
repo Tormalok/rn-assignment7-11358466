@@ -40,6 +40,15 @@ const CartScreen = () => {
     }
   };
 
+  const calculateTotal = () => {
+    return cartItems
+      .reduce(
+        (total, item) => total + parseFloat(item.price.replace('$', '')),
+        0
+      )
+      .toFixed(2);
+  };
+
   const renderItem = ({ item }) => (
     <View style={styles.item}>
       <Image source={item.image} style={styles.image} />
@@ -64,7 +73,15 @@ const CartScreen = () => {
         data={cartItems}
         renderItem={renderItem}
         keyExtractor={(item) => item.id}
+        showsVerticalScrollIndicator={false}
       />
+      <View style={styles.footer}>
+        <Text style={styles.totalText}>EST. TOTAL</Text>
+        <Text style={styles.totalAmount}>${calculateTotal()}</Text>
+        <TouchableOpacity style={styles.checkoutButton}>
+          <Text style={styles.checkoutText}>CHECKOUT</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };
@@ -108,6 +125,39 @@ const styles = StyleSheet.create({
   },
   removeButton: {
     marginLeft: 10,
+  },
+  footer: {
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
+    backgroundColor: '#fff',
+    padding: 20,
+    borderTopWidth: 1,
+    borderColor: '#ddd',
+    alignItems: 'center',
+  },
+  totalText: {
+    fontSize: 16,
+    color: '#333',
+  },
+  totalAmount: {
+    fontSize: 24,
+    color: '#f00',
+    fontWeight: 'bold',
+    marginVertical: 10,
+  },
+  checkoutButton: {
+    backgroundColor: '#000',
+    padding: 15,
+    borderRadius: 5,
+    width: '100%',
+    alignItems: 'center',
+  },
+  checkoutText: {
+    color: '#fff',
+    fontSize: 18,
+    fontWeight: 'bold',
   },
 });
 
