@@ -13,21 +13,15 @@ Data storage uses a combination of state management and AsyncStorage to ensure p
 
 ## Screenshots of Application [Running on Google Pixel 7a]
 
-### Home Screen
+![](./Screenshots/Home.png)
 
-![The home screen](./Screenshots/Home_Screen.png)
+![](./Screenshots/PD_01.png)
 
-### Home Screen
+![](./Screenshots/PD_02.png)
 
-![Alert confirming item added to cart](./Screenshots/Added_Item.png)
+![](./Screenshots/PD_03.png)
 
-### Cart Screen
-
-![The cart screen](./Screenshots/Cart_Screen.png)
-
-### Cart Screen
-
-![Alert confirming item removed from cart](./Screenshots/Removed__Item.png)
+![](./Screenshots/Cart.png)
 
 ## Briefing:
 
