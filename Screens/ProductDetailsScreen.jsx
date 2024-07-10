@@ -15,7 +15,7 @@ const ProductDetailsScreen = ({ route }) => {
   return (
     <View style={styles.container}>
       <ScrollView contentContainerStyle={styles.scrollViewContent}>
-        <Image source={item.image} style={styles.image} />
+        <Image source={{ uri: item.image }} style={styles.image} />
         <Text style={styles.title}>{item.title}</Text>
         <Text style={styles.description}>{item.description}</Text>
         <Text style={styles.price}>{item.price}</Text>
@@ -99,7 +99,6 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
   },
-
   empty: {
     height: 80,
   },

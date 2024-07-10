@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   View,
   Text,
@@ -10,51 +10,6 @@ import {
 import { MaterialIcons } from '@expo/vector-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
-
-const DATA = [
-  {
-    id: '1',
-    title: 'Office Wear',
-    description: 'reversible angora cardigan',
-    price: '$120',
-    image: require('../assets/Dress_Images/dress1.png'),
-  },
-  {
-    id: '2',
-    title: 'Black',
-    description: 'reversible angora cardigan',
-    price: '$120',
-    image: require('../assets/Dress_Images/dress2.png'),
-  },
-  {
-    id: '3',
-    title: 'Church Wear',
-    description: 'reversible angora cardigan',
-    price: '$120',
-    image: require('../assets/Dress_Images/dress3.png'),
-  },
-  {
-    id: '4',
-    title: 'Lamerei',
-    description: 'reversible angora cardigan',
-    price: '$120',
-    image: require('../assets/Dress_Images/dress4.png'),
-  },
-  {
-    id: '5',
-    title: '21WN',
-    description: 'reversible angora cardigan',
-    price: '$120',
-    image: require('../assets/Dress_Images/dress5.png'),
-  },
-  {
-    id: '6',
-    title: 'Lopo',
-    description: 'reversible angora cardigan',
-    price: '$120',
-    image: require('../assets/Dress_Images/dress6.png'),
-  },
-];
 
 const Item = ({ item }) => {
   const navigation = useNavigation();
@@ -77,7 +32,7 @@ const Item = ({ item }) => {
       onPress={() => navigation.navigate('ProductDetails', { item })}
     >
       <View style={styles.imageContainer}>
-        <Image source={item.image} style={styles.image} />
+        <Image source={{ uri: item.image }} style={styles.image} />
         <TouchableOpacity
           onPress={() => addItemToCart(item)}
           style={styles.addButton}
@@ -95,13 +50,25 @@ const Item = ({ item }) => {
 };
 
 const ItemList = () => {
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const fetchData = () => {
+    fetch('https://fakestoreapi.com/products')
+      .then((res) => res.json())
+      .then((json) => setData(json));
+  };
+
   const renderItem = ({ item }) => <Item item={item} />;
 
   return (
     <FlatList
-      data={DATA}
+      data={data}
       renderItem={renderItem}
-      keyExtractor={(item) => item.id}
+      keyExtractor={(item) => item.id.toString()}
       numColumns={2}
       columnWrapperStyle={styles.row}
       showsVerticalScrollIndicator={false}

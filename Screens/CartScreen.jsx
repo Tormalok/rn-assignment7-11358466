@@ -12,6 +12,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const CartScreen = ({ navigation }) => {
   const [cartItems, setCartItems] = useState([]);
+  const [total, setTotal] = useState(0);
 
   useEffect(() => {
     const fetchCartItems = async () => {
@@ -27,6 +28,20 @@ const CartScreen = ({ navigation }) => {
     fetchCartItems();
   }, []);
 
+  useEffect(() => {
+    const calculateTotal = () => {
+      const totalPrice = cartItems
+        .reduce((total, item) => {
+          const itemPrice =
+            typeof item.price === 'string' ? parseFloat(item.price) : 0;
+          return total + itemPrice;
+        }, 0)
+        .toFixed(2);
+      setTotal(totalPrice);
+    };
+    calculateTotal();
+  }, [cartItems]);
+
   const removeItemFromCart = async (itemToRemove) => {
     try {
       const updatedCartItems = cartItems.filter(
@@ -40,18 +55,9 @@ const CartScreen = ({ navigation }) => {
     }
   };
 
-  const calculateTotal = () => {
-    return cartItems
-      .reduce(
-        (total, item) => total + parseFloat(item.price.replace('$', '')),
-        0
-      )
-      .toFixed(2);
-  };
-
   const renderItem = ({ item }) => (
     <View style={styles.item}>
-      <Image source={item.image} style={styles.image} />
+      <Image source={{ uri: item.image }} style={styles.image} />
       <View style={styles.textContainer}>
         <Text style={styles.title}>{item.title.toUpperCase()}</Text>
         <Text style={styles.description}>{item.description}</Text>
@@ -80,12 +86,13 @@ const CartScreen = ({ navigation }) => {
       <FlatList
         data={cartItems}
         renderItem={renderItem}
-        keyExtractor={(item) => item.id}
+        keyExtractor={(item, index) => `${item.id}_${index}`}
         showsVerticalScrollIndicator={false}
       />
+
       <View style={styles.footer}>
         <Text style={styles.totalText}>EST. TOTAL</Text>
-        <Text style={styles.totalAmount}>${calculateTotal()}</Text>
+        <Text style={styles.totalAmount}>${total}</Text>
         <TouchableOpacity style={styles.checkoutButton}>
           <Text style={styles.checkoutText}>CHECKOUT</Text>
         </TouchableOpacity>
@@ -113,7 +120,7 @@ const styles = StyleSheet.create({
     fontSize: 30,
     fontWeight: 'bold',
     textAlign: 'center',
-    flex: 1, // Take up remaining space
+    flex: 1,
   },
   item: {
     flexDirection: 'row',
